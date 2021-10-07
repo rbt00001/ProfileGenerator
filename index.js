@@ -1,6 +1,7 @@
 // node modules 
 const inquirer = require("inquirer");
 const fs = require("fs");
+const generateTeam = require("./src/generator");
 
 // lib modules 
 const Engineer = require("./lib/engineer");
@@ -8,10 +9,10 @@ const Intern = require("./lib/intern.js");
 const Manager = require("./lib/manager");
 
 
+const newEmployeeData = [];
 
-
-
-// Start - Create manager. Enter 4 manager prompts = Then Enter Engineer, Employee, or Finished List
+// "Enter to create new employee 
+// Start - Enter prompts = Then Enter Engineer, Employee, or Finished List
 
 const questions = async () => {
     const answers = await inquirer
@@ -31,14 +32,92 @@ const questions = async () => {
             message: "Please insert E-Mail address.",
             name: "email"
         },
-        {
+        
+
+            // List shows Employee / Engineer / Intern / Manager    
+        { 
             type: "list",
             message: "Please select role.",
-            name: ["Engineer", "Intern", "Manager"]
+            name: ["Engineer", "Intern", "Manager", "Complete"]
         }
     ])
-}
 
-// "Would you like to enter a new employee?"(yes/no)
-//If yes - Go to list. - List shows Employee / Engineer / Intern / Manager 
-// From the selected agent follow along with prompts to enter all of the ID information. 
+    // From the selected agent follow along with prompts to enter all of the specific information. 
+
+    if (answers.role === "Manager") {
+        const managerInfo = await inquirer 
+        .prompt ([
+            {
+            type: "input",
+            message: "Please enter office number",
+            name: "officeNum"
+        }
+        ])
+        const newManager = new Manager(
+            answers.name,
+            answers.id,
+            answers.email,
+            managerInfo.officeNum
+        );
+        newEmployeeData.push(newManager);
+    } else if (answers.role === "Engineer") {
+        const githubInfo = await inquirer
+        .prompt ([
+            {
+                type: "input",
+                message: "Please insert Github username.",
+                name: "github"
+            }
+        ])
+        const newEngineer = new Engineer (
+            answers.name,
+            answers.id,
+            answers.email,
+            answers.github
+        );
+        newEmployeeData.push(newEngineer);
+    } else if (answers.role === "Intern") {
+        const schoolInfo = await inquirer
+        .prompt ([
+            {
+                type: "input",
+                message: "Please insert school.",
+                name: "school"
+            }
+        ])
+        const newEngineer = new Engineer (
+            answers.name,
+            answers.id,
+            answers.email,
+            answers.school
+        );
+        newEmployeeData.push(newIntern);
+};
+
+async function promptQuestions() {
+    await questions()
+
+    const addMembers = await inquirer
+    .prompt([
+        {
+        name: "addMember",
+        type: "list",
+        choices: ["Add new team member", "Complete team"],
+        message: "What would you like to do next"
+        }
+    ])
+    if (addMembers.addMember === "Add a new team member") {
+        return questions()
+    }
+    return completeTeam();
+    }
+
+    function completeTeam () {
+        console.log("New team member", newEmployeeData)
+        fs.writeFileSync(
+            "./output/index.html",
+            generateTeam(newEmployeeData),
+            "utf-8"
+        );
+    }
+}
