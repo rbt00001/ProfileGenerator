@@ -75,7 +75,7 @@ const questions = async () => {
             answers.name,
             answers.id,
             answers.email,
-            answers.github
+            githubInfo.github
         );
         newEmployeeData.push(newEngineer);
         promptQuestions()
@@ -92,7 +92,7 @@ const questions = async () => {
             answers.name,
             answers.id,
             answers.email,
-            answers.school
+            schoolInfo.school
         );
         newEmployeeData.push(newIntern);
         promptQuestions();
