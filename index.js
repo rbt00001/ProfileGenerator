@@ -38,7 +38,8 @@ const questions = async () => {
         { 
             type: "list",
             message: "Please select role.",
-            name: ["Engineer", "Intern", "Manager", "Complete"]
+            choices: ["Engineer", "Intern", "Manager", "Complete"],
+            name: "role"
         }
     ])
 
@@ -60,6 +61,7 @@ const questions = async () => {
             managerInfo.officeNum
         );
         newEmployeeData.push(newManager);
+        promptQuestions();
     } else if (answers.role === "Engineer") {
         const githubInfo = await inquirer
         .prompt ([
@@ -76,6 +78,7 @@ const questions = async () => {
             answers.github
         );
         newEmployeeData.push(newEngineer);
+        promptQuestions()
     } else if (answers.role === "Intern") {
         const schoolInfo = await inquirer
         .prompt ([
@@ -85,18 +88,18 @@ const questions = async () => {
                 name: "school"
             }
         ])
-        const newEngineer = new Engineer (
+        const newIntern = new Intern (
             answers.name,
             answers.id,
             answers.email,
             answers.school
         );
         newEmployeeData.push(newIntern);
+        promptQuestions();
 };
-
+}
 async function promptQuestions() {
-    await questions()
-
+   
     const addMembers = await inquirer
     .prompt([
         {
@@ -106,11 +109,11 @@ async function promptQuestions() {
         message: "What would you like to do next"
         }
     ])
-    if (addMembers.addMember === "Add a new team member") {
+    if (addMembers.addMember === "Add new team member") {
         return questions()
     }
     return completeTeam();
-    }
+}
 
     function completeTeam () {
         console.log("New team member", newEmployeeData)
@@ -120,4 +123,5 @@ async function promptQuestions() {
             "utf-8"
         );
     }
-}
+
+    questions();
