@@ -1,11 +1,11 @@
 // require employee folder
-const Engineer = require("../lib/employee")
+const Engineer = require("../lib/engineer")
 
 
 
 test ("Employee gitHub", () => {
     const empTest = new Engineer("Ben",100,"rbt00001@yahoo.com","RBT00001")
-    expect (empTest.github).toBe("RBT00001")
+    expect(empTest.github).toBe("RBT00001")
 })
 // does getRole() method return role "Employee"
 
