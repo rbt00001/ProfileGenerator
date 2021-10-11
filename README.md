@@ -30,3 +30,7 @@ MIT
 ## Contributor
 
 Ben Townsend
+
+## Video Link
+
+https://watch.screencastify.com/v/fw3rSQqFCEdBrEv7FV5f
